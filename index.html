@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Trust-Based Services for Students</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="logo" onclick="showView('home')">
+    <div class="logo-icon">D</div>
+    Digital Service Platform
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showView('home')">Home</a></li>
+    <li><a onclick="showServices('accommodation')">Accommodation</a></li>
+    <li><a onclick="showServices('catering')">Catering</a></li>
+    <li><a onclick="showServices('tutoring')">Tutoring</a></li>
+  </ul>
+  <div class="nav-actions" id="navActions">
+    <button class="btn-ghost" onclick="showView('auth')">Sign In</button>
+    <button class="btn-primary" onclick="showView('auth')">Get Started</button>
+  </div>
+</nav>
+
+<!-- ===== HOME VIEW ===== -->
+<div class="view active" id="view-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">🔒 The Secure Student Marketplace</div>
+    <h1>Trust-Based<br>Services for <span>Students</span></h1>
+    <p class="hero-sub">Access verified accommodation, catering, and tutoring. No scams, just verified peers and professionals.</p>
+    <div class="search-bar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8892a4" stroke-width="2" style="flex-shrink:0;margin-right:8px">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" placeholder="What do you need?">
+      <select onchange="if(this.value!=='all')showServices(this.value)">
+        <option value="all">All Categories</option>
+        <option value="accommodation">Accommodation</option>
+        <option value="catering">Catering</option>
+        <option value="tutoring">Tutoring</option>
+      </select>
+      <button class="btn-primary" style="padding:.45rem 1.1rem;font-size:13px">Search</button>
+    </div>
+  </div>
+
+  <!-- Essential Services -->
+  <section style="background:var(--dm)">
+    <div class="sec-head"><h2>Essential Services</h2><p>Click a category to browse verified listings.</p></div>
+    <div class="svc-grid">
+      <div class="svc-card" onclick="showServices('accommodation')">
+        <div class="svc-bg bg-accomm"></div><div class="svc-overlay"></div>
+        <div class="svc-click-hint">Browse →</div>
+        <div class="svc-deco">🏠</div>
+        <div class="svc-body">
+          <div class="svc-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h3>Accommodation</h3><p>Verified rooms &amp; sublets</p>
+        </div>
+      </div>
+      <div class="svc-card" onclick="showServices('catering')">
+        <div class="svc-bg bg-cater"></div><div class="svc-overlay"></div>
+        <div class="svc-click-hint">Browse →</div>
+        <div class="svc-deco">🍽️</div>
+        <div class="svc-body">
+          <div class="svc-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+              <path d="M7 2v20"/>
+              <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+            </svg>
+          </div>
+          <h3>Catering</h3><p>Trusted meal providers</p>
+        </div>
+      </div>
+      <div class="svc-card" onclick="showServices('tutoring')">
+        <div class="svc-bg bg-tutor"></div><div class="svc-overlay"></div>
+        <div class="svc-click-hint">Browse →</div>
+        <div class="svc-deco">📚</div>
+        <div class="svc-body">
+          <div class="svc-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+            </svg>
+          </div>
+          <h3>Tutoring</h3><p>Expert academic mentors</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verified Listings -->
+  <section style="background:var(--dm)">
+    <div class="lst-head">
+      <div class="sec-head" style="margin-bottom:0">
+        <h2>Verified Listings</h2>
+        <p>Top-rated services from trusted peers and professionals.</p>
+      </div>
+      <button class="explore" onclick="showServices('accommodation')">Explore All →</button>
+    </div>
+    <div class="lst-grid" id="homeListings"></div>
+  </section>
+
+  <!-- Verification Section -->
+  <section class="vfy-section">
+    <div>
+      <div class="vfy-badge">🛡️ Platform Security</div>
+      <h2>Verification is our <em>Foundation.</em></h2>
+      <p>We don't just list services; we curate a safe ecosystem. Every provider is vetted and every transaction is monitored.</p>
+      <button class="btn-outline" onclick="showView('auth')">Learn About Verification →</button>
+    </div>
+    <div class="vfy-features">
+      <div class="vfy-feat">
+        <div class="vfy-ico">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div><h4>Identity Verification</h4><p>Every provider undergoes strict NID or University ID checks before listing.</p></div>
+      </div>
+      <div class="vfy-feat">
+        <div class="vfy-ico">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div><h4>Fraud Detection</h4><p>Our systems monitor patterns 24/7 to flag and remove suspicious activity instantly.</p></div>
+      </div>
+      <div class="vfy-feat">
+        <div class="vfy-ico">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div><h4>Secure Ecosystem</h4><p>Communicate and transact within a closed, verified network designed for students.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="hiw-section">
+    <p class="hiw-label">Simple. Secure. Standardized.</p>
+    <div class="sec-head" style="text-align:center">
+      <h2>How It Works</h2>
+      <p style="max-width:380px;margin:0 auto;color:var(--mu);font-size:14px">We've streamlined the process so you can focus on what matters.</p>
+    </div>
+    <div class="hiw-grid">
+      <div class="hiw-step"><div class="hiw-num">01</div><h3>Discover</h3><p>Search our curated, verified listings.</p></div>
+      <div class="hiw-step"><div class="hiw-num">02</div><h3>Verify</h3><p>Complete your student profile to interact.</p></div>
+      <div class="hiw-step"><div class="hiw-num">03</div><h3>Connect</h3><p>Message providers securely on-platform.</p></div>
+      <div class="hiw-step"><div class="hiw-num">04</div><h3>Review</h3><p>Build community trust with honest feedback.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <span class="cta-badge">Join the Community</span>
+    <h2>Ready to experience a<br>safer marketplace?</h2>
+    <p>Join thousands of verified students and service providers already on the platform.</p>
+    <div class="cta-actions">
+      <button class="btn-primary" style="padding:.75rem 2rem;font-size:15px" onclick="showView('auth')">Create Account</button>
+      <button class="btn-outline" style="padding:.75rem 2rem;font-size:15px" onclick="showServices('accommodation')">Browse Services</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="ft-top">
+      <div class="ft-brand">
+        <div class="logo"><div class="logo-icon">D</div> Digital Service Platform</div>
+        <p>Your trusted marketplace for verified accommodation, catering, and tutoring.</p>
+        <div class="ft-social">
+          <div class="soc-btn">f</div>
+          <div class="soc-btn">𝕏</div>
+          <div class="soc-btn">ig</div>
+          <div class="soc-btn">in</div>
+        </div>
+      </div>
+      <div class="ft-col"><h4>Platform</h4><ul><li><a>About Us</a></li><li><a>How It Works</a></li><li><a>Services</a></li><li><a>Contact</a></li></ul></div>
+      <div class="ft-col"><h4>Services</h4><ul><li><a onclick="showServices('accommodation')">Accommodation</a></li><li><a onclick="showServices('catering')">Catering</a></li><li><a onclick="showServices('tutoring')">Tutoring</a></li><li><a onclick="showView('auth')">Get Verified</a></li></ul></div>
+      <div class="ft-col"><h4>Support</h4><ul><li><a>Help Center</a></li><li><a>Safety Guidelines</a></li><li><a>Report Abuse</a></li><li><a>Trust &amp; Safety</a></li></ul></div>
+      <div class="ft-col"><h4>Legal</h4><ul><li><a>Terms of Service</a></li><li><a>Privacy Policy</a></li><li><a>Cookie Policy</a></li><li><a>Community Guidelines</a></li></ul></div>
+    </div>
+    <div class="ft-contact">
+      <div class="ct-item">
+        <div class="ct-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><p>Email</p><span>support@dsp.com.bd</span></div>
+      </div>
+      <div class="ct-item">
+        <div class="ct-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l1.97-1.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><p>Phone</p><span>+880 1234-567890</span></div>
+      </div>
+      <div class="ct-item">
+        <div class="ct-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><p>Location</p><span>Rajshahi, Bangladesh</span></div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 Digital Service Platform. All rights reserved.</p>
+      <div class="ft-sec">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Secured &amp; Verified Platform</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== SERVICES VIEW ===== -->
+<div class="view" id="view-services">
+  <div class="sv-header">
+    <button class="sv-back" onclick="showView('home')">← Back to Home</button>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <h2 id="svTitle" style="font-size:1.5rem;font-weight:700;margin-bottom:.75rem">Accommodation</h2>
+        <div class="sv-tabs">
+          <button class="sv-tab active" onclick="switchTab('accommodation',this)">🏠 Accommodation</button>
+          <button class="sv-tab" onclick="switchTab('catering',this)">🍽️ Catering</button>
+          <button class="sv-tab" onclick="switchTab('tutoring',this)">📚 Tutoring</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="showView('auth')">+ Post a Listing</button>
+    </div>
+  </div>
+  <div class="sv-body">
+    <div class="sv-filter-bar">
+      <span style="font-size:13px;font-weight:500;color:var(--w)">Filter:</span>
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Budget</button>
+      <button class="filter-chip">Mid-range</button>
+      <button class="filter-chip">Premium</button>
+      <button class="filter-chip">Verified Only</button>
+      <span class="sv-results" id="svResults">Showing 4 results</span>
+    </div>
+    <div id="svListings"></div>
+  </div>
+</div>
+
+<!-- ===== AUTH VIEW ===== -->
+<div class="view" id="view-auth">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo"><div class="logo-icon">D</div> Digital Service Platform</div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuth('login',this)">Sign In</button>
+        <button class="auth-tab" onclick="switchAuth('register',this)">Create Account</button>
+      </div>
+      <!-- LOGIN -->
+      <div id="auth-login">
+        <div class="auth-form">
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+          <div class="form-group"><label>Password</label><input type="password" placeholder="Enter your password"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:-.25rem">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);cursor:pointer">
+              <input type="checkbox" style="accent-color:var(--g)"> Remember me
+            </label>
+            <a style="font-size:13px;color:var(--g);cursor:pointer">Forgot password?</a>
+          </div>
+          <button class="auth-submit" onclick="doLogin('user')">Sign In</button>
+          <div class="form-divider"><span>or continue with</span></div>
+          <div class="auth-social">
+            <button class="btn-social">🔵 Google</button>
+            <button class="btn-social">🔷 Facebook</button>
+          </div>
+        </div>
+        <div class="auth-footer">Don't have an account? <a onclick="switchAuth('register',null)">Sign up free</a></div>
+        <div class="demo-box">
+          <p>Demo Login:</p>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem">
+            <button onclick="doLogin('user')" class="demo-btn green">👤 User</button>
+            <button onclick="doLogin('admin')" class="demo-btn yellow">🛡️ Admin</button>
+          </div>
+        </div>
+      </div>
+      <!-- REGISTER -->
+      <div id="auth-register" class="hidden">
+        <div style="margin-bottom:1rem">
+          <p style="font-size:13px;color:var(--mu);margin-bottom:.6rem;font-weight:500">I want to:</p>
+          <div class="role-select">
+            <div class="role-card active" onclick="selectRole(this)"><div class="role-icon">🔍</div><h4>Find Services</h4><p>Accommodation, food &amp; tutors</p></div>
+            <div class="role-card" onclick="selectRole(this)"><div class="role-icon">📋</div><h4>Provide Services</h4><p>List my services on platform</p></div>
+          </div>
+        </div>
+        <div class="auth-form">
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Muhammad"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Tousif"></div>
+          </div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@vu.edu.bd"></div>
+          <div class="form-group"><label>University / Institution</label>
+            <select><option>Varendra University</option><option>Rajshahi University</option><option>RUET</option><option>Other</option></select>
+          </div>
+          <div class="form-group"><label>Student ID</label><input type="text" placeholder="231311064"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Password</label><input type="password" placeholder="Min 8 chars"></div>
+            <div class="form-group"><label>Confirm</label><input type="password" placeholder="Repeat password"></div>
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--mu);cursor:pointer">
+            <input type="checkbox" style="accent-color:var(--g);margin-top:2px">
+            I agree to the Terms of Service and Privacy Policy
+          </label>
+          <button class="auth-submit" onclick="doLogin('user')">Create Account &amp; Verify Email</button>
+        </div>
+        <div class="auth-footer">Already have an account? <a onclick="switchAuth('login',null)">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== USER DASHBOARD ===== -->
+<div class="view" id="view-userdash">
+  <div class="dash-wrap">
+    <div class="dash-side">
+      <div class="dash-side-user">
+        <div class="dash-avatar">MT</div>
+        <h4>MD. Tousif Bin Rezaul</h4>
+        <p style="color:var(--g);font-size:11px;margin-top:2px">✓ Verified Student</p>
+      </div>
+      <div class="dash-nav-item active" onclick="showDashSection('overview',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Overview
+      </div>
+      <div class="dash-nav-item" onclick="showDashSection('bookings',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> My Bookings
+      </div>
+      <div class="dash-nav-item" onclick="showDashSection('saved',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Saved Listings
+      </div>
+      <div class="dash-nav-item" onclick="showDashSection('profile',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile &amp; Verification
+      </div>
+      <div class="dash-nav-item" onclick="showDashSection('reviews',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> My Reviews
+      </div>
+      <div style="margin-top:2rem;padding:0 .75rem">
+        <div class="dash-nav-item" onclick="doLogout()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Log Out
+        </div>
+      </div>
+    </div>
+    <div class="dash-main">
+      <div class="dash-section active" id="ds-overview">
+        <div class="dash-title">Welcome back, Tousif 👋</div>
+        <div class="dash-sub">Here's what's happening with your account.</div>
+        <div class="dash-stats">
+          <div class="stat-card"><div class="s-label">Active Bookings</div><div class="s-val s-green">2</div><div class="s-hint">1 accommodation, 1 tutor</div></div>
+          <div class="stat-card"><div class="s-label">Saved Listings</div><div class="s-val">7</div><div class="s-hint">3 new since last visit</div></div>
+          <div class="stat-card"><div class="s-label">Reviews Given</div><div class="s-val">4</div><div class="s-hint">Avg rating: ⭐ 4.5</div></div>
+          <div class="stat-card"><div class="s-label">Account Status</div><div class="s-val s-green" style="font-size:1rem;margin-top:.25rem">✓ Verified</div><div class="s-hint">Student ID confirmed</div></div>
+        </div>
+        <div class="verify-banner">
+          <div class="verify-icon">⚠️</div>
+          <div><h4>Complete NID Verification</h4><p>Upload your National ID to unlock posting ads and direct messaging with providers.</p></div>
+          <button class="btn-primary" style="margin-left:auto;font-size:12px;padding:.45rem 1rem;flex-shrink:0">Verify Now</button>
+        </div>
+        <div class="dash-card">
+          <h3>Recent Activity</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ac">🏠</div><div class="bk-info"><h4>Cozy Sublet – University Area</h4><p>Booked · Jun 15, 2026</p></div></div><div class="bk-right"><div class="bk-price">৳200/mo</div><span class="bk-status st-active">Active</span></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico tu">📚</div><div class="bk-info"><h4>Math Tutoring – Uni Level</h4><p>Session tomorrow · 4:00 PM</p></div></div><div class="bk-right"><div class="bk-price">৳45/hr</div><span class="bk-status st-pending">Upcoming</span></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ct">🍱</div><div class="bk-info"><h4>Home Catering – Daily Meals</h4><p>Ended · May 30, 2026</p></div></div><div class="bk-right"><div class="bk-price">৳50/meal</div><span class="bk-status st-done">Completed</span></div></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ds-bookings">
+        <div class="dash-title">My Bookings</div>
+        <div class="dash-sub">All your service bookings in one place.</div>
+        <div class="dash-card"><h3>Current &amp; Upcoming</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ac">🏠</div><div class="bk-info"><h4>Cozy Sublet – University Area</h4><p>Rajshahi · Started Jun 15, 2026</p></div></div><div class="bk-right"><div class="bk-price">৳200/mo</div><span class="bk-status st-active">Active</span></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico tu">📚</div><div class="bk-info"><h4>Math Tutoring – Uni Level</h4><p>Online · Next: Jul 2, 4:00 PM</p></div></div><div class="bk-right"><div class="bk-price">৳45/hr</div><span class="bk-status st-pending">Upcoming</span></div></div>
+        </div>
+        <div class="dash-card"><h3>Past Bookings</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ct">🍱</div><div class="bk-info"><h4>Home Catering – Daily Meals</h4><p>Near VU · May 1–30, 2026</p></div></div><div class="bk-right"><div class="bk-price">৳1,500 total</div><span class="bk-status st-done">Completed</span></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico tu">📚</div><div class="bk-info"><h4>English ESL Tutoring</h4><p>Online · Apr 10–24, 2026</p></div></div><div class="bk-right"><div class="bk-price">৳360 total</div><span class="bk-status st-done">Completed</span></div></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ds-saved">
+        <div class="dash-title">Saved Listings</div>
+        <div class="dash-sub">Listings you've bookmarked for later.</div>
+        <div class="dash-card"><h3>Accommodation (3)</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ac">🏠</div><div class="bk-info"><h4>Luxury Apartment – Downtown</h4><p>৳1,500/mo · Rajshahi City</p></div></div><div class="bk-right"><button class="btn-primary" style="font-size:11px;padding:.3rem .75rem">View</button></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ac">🛏️</div><div class="bk-info"><h4>Shared Room – Campus Road</h4><p>৳120/mo · 3 min from VU</p></div></div><div class="bk-right"><button class="btn-primary" style="font-size:11px;padding:.3rem .75rem">View</button></div></div>
+        </div>
+        <div class="dash-card"><h3>Tutoring (2)</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico tu">📚</div><div class="bk-info"><h4>Physics Tutoring – BSc Level</h4><p>৳55/hr · Online</p></div></div><div class="bk-right"><button class="btn-primary" style="font-size:11px;padding:.3rem .75rem">View</button></div></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ds-profile">
+        <div class="dash-title">Profile &amp; Verification</div>
+        <div class="dash-sub">Manage your identity and account details.</div>
+        <div class="dash-card">
+          <div class="profile-avatar-sec">
+            <div class="big-avatar">MT</div>
+            <div><h4 style="font-size:15px;font-weight:600">MD. Tousif Bin Rezaul</h4><p style="color:var(--g);font-size:13px">✓ Student Verified</p><button class="btn-outline" style="font-size:12px;padding:.35rem .9rem;margin-top:.5rem">Change Photo</button></div>
+          </div>
+          <div class="profile-form">
+            <div class="form-group"><label>First Name</label><input type="text" value="Tousif"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" value="Bin Rezaul"></div>
+            <div class="form-group"><label>Email</label><input type="email" value="231311064@vu.edu.bd"></div>
+            <div class="form-group"><label>Phone</label><input type="text" value="+880 17XX-XXXXXX"></div>
+            <div class="form-group"><label>University</label><input type="text" value="Varendra University"></div>
+            <div class="form-group"><label>Student ID</label><input type="text" value="231311064"></div>
+            <div style="grid-column:1/-1"><button class="btn-primary" style="padding:.65rem 1.5rem">Save Changes</button></div>
+          </div>
+        </div>
+        <div class="dash-card"><h3>Verification Status</h3>
+          <div class="bk-item"><div class="bk-left"><div style="font-size:20px;margin-right:.5rem">✅</div><div class="bk-info"><h4>Email Verified</h4><p>231311064@vu.edu.bd confirmed</p></div></div><span class="bk-status st-active">Complete</span></div>
+          <div class="bk-item"><div class="bk-left"><div style="font-size:20px;margin-right:.5rem">✅</div><div class="bk-info"><h4>Student ID Verified</h4><p>Varendra University · ID 231311064</p></div></div><span class="bk-status st-active">Complete</span></div>
+          <div class="bk-item"><div class="bk-left"><div style="font-size:20px;margin-right:.5rem">⏳</div><div class="bk-info"><h4>NID / National ID</h4><p>Required to post listings</p></div></div><button class="btn-primary" style="font-size:12px;padding:.35rem .9rem">Upload</button></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ds-reviews">
+        <div class="dash-title">My Reviews</div>
+        <div class="dash-sub">Reviews you've written for service providers.</div>
+        <div class="dash-card"><h3>Reviews Written (4)</h3>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico ct">🍱</div><div class="bk-info"><h4>Home Catering – Daily Meals</h4><p style="color:var(--yw)">★★★★★ · "Fresh food every day, highly recommended!"</p></div></div><div class="bk-right" style="font-size:11px;color:var(--mu)">May 31</div></div>
+          <div class="bk-item"><div class="bk-left"><div class="bk-ico tu">📚</div><div class="bk-info"><h4>English ESL Tutoring</h4><p style="color:var(--yw)">★★★★☆ · "Very patient and clear explanations."</p></div></div><div class="bk-right" style="font-size:11px;color:var(--mu)">Apr 25</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div class="view" id="view-admindash">
+  <div class="dash-wrap">
+    <div class="dash-side">
+      <div class="dash-side-user">
+        <div class="dash-avatar" style="background:var(--yw);color:var(--dn)">AD</div>
+        <h4>Admin Panel</h4>
+        <p style="color:var(--yw);font-size:11px;margin-top:2px">🛡️ Super Administrator</p>
+      </div>
+      <div class="dash-nav-item active" onclick="showAdminSection('overview',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Overview
+      </div>
+      <div class="dash-nav-item" onclick="showAdminSection('users',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> Users <span class="notify-dot"></span>
+      </div>
+      <div class="dash-nav-item" onclick="showAdminSection('listings',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Listings
+      </div>
+      <div class="dash-nav-item" onclick="showAdminSection('verif',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verification Queue <span class="notify-dot"></span>
+      </div>
+      <div class="dash-nav-item" onclick="showAdminSection('reports',this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Reports &amp; Analytics
+      </div>
+      <div style="margin-top:2rem;padding:0 .75rem">
+        <div class="dash-nav-item" onclick="doLogout()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Log Out
+        </div>
+      </div>
+    </div>
+    <div class="dash-main">
+      <div class="dash-section active" id="ads-overview">
+        <div class="dash-title">Admin Overview</div>
+        <div class="dash-sub">Platform health at a glance — July 2026.</div>
+        <div class="admin-stats">
+          <div class="admin-stat-card"><div class="s-label">Total Users</div><div class="s-val s-green">1,284</div><div class="s-hint">↑ +47 this week</div></div>
+          <div class="admin-stat-card"><div class="s-label">Active Listings</div><div class="s-val">326</div><div class="s-hint">↑ +12 this week</div></div>
+          <div class="admin-stat-card"><div class="s-label">Pending Verifications</div><div class="s-val s-yellow">18</div><div class="s-hint">Awaiting review</div></div>
+          <div class="admin-stat-card"><div class="s-label">Reports Filed</div><div class="s-val s-red">5</div><div class="s-hint">3 under review</div></div>
+        </div>
+        <div class="dash-card"><h3>User Registrations — Last 7 Days</h3>
+          <div class="chart-bar-wrap" id="chartBars"></div>
+          <div class="chart-labels" id="chartLabels"></div>
+        </div>
+        <div class="dash-card"><h3>Recent Flagged Activity</h3>
+          <div class="bk-item"><div class="bk-left"><div style="font-size:18px;margin-right:.5rem">🚩</div><div class="bk-info"><h4>Suspicious listing: "Free Room – No ID needed"</h4><p>Posted by user #1047 · Jun 30, 2026</p></div></div><div class="bk-right"><button class="icon-btn danger" title="Remove">✕</button></div></div>
+          <div class="bk-item"><div class="bk-left"><div style="font-size:18px;margin-right:.5rem">⚠️</div><div class="bk-info"><h4>Duplicate account detected: same NID</h4><p>Users #891 &amp; #1102 · Jun 29, 2026</p></div></div><div class="bk-right"><button class="icon-btn danger">🔍</button></div></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ads-users">
+        <div class="dash-title">User Management</div>
+        <div class="dash-sub">All registered users on the platform.</div>
+        <div class="dash-card" style="padding:0;overflow:hidden">
+          <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">All Users (1,284)</h3>
+            <input type="text" placeholder="Search users..." style="background:var(--dmd);border:1px solid var(--br);color:var(--w);padding:.4rem .75rem;border-radius:6px;font-size:13px;outline:none;width:200px;font-family:'Inter',sans-serif">
+          </div>
+          <table class="admin-table">
+            <thead><tr><th>User</th><th>Email</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><div class="u-row"><div class="u-avatar">MT</div>MD. Tousif Bin Rezaul</div></td><td style="color:var(--mu)">231311064@vu.edu.bd</td><td><span class="tag tag-a">Seeker</span></td><td><span class="tag tag-v">✓ Verified</span></td><td style="color:var(--mu)">Mar 2026</td><td><button class="icon-btn">✏️</button> <button class="icon-btn danger">🚫</button></td></tr>
+              <tr><td><div class="u-row"><div class="u-avatar" style="background:#9ae6b4;color:#1a4731">RS</div>Md. Ridwanul Sharup</div></td><td style="color:var(--mu)">231311048@vu.edu.bd</td><td><span class="tag tag-a">Provider</span></td><td><span class="tag tag-v">✓ Verified</span></td><td style="color:var(--mu)">Feb 2026</td><td><button class="icon-btn">✏️</button> <button class="icon-btn danger">🚫</button></td></tr>
+              <tr><td><div class="u-row"><div class="u-avatar" style="background:#90b4f4;color:#042c53">AN</div>Md. Arafat Nishan</div></td><td style="color:var(--mu)">231311062@vu.edu.bd</td><td><span class="tag tag-a">Seeker</span></td><td><span class="tag tag-p">⏳ Pending</span></td><td style="color:var(--mu)">Apr 2026</td><td><button class="icon-btn">✏️</button> <button class="icon-btn danger">🚫</button></td></tr>
+              <tr><td><div class="u-row"><div class="u-avatar" style="background:#fac775;color:#412402">KA</div>Karim Abdullah</div></td><td style="color:var(--mu)">karim@gmail.com</td><td><span class="tag tag-a">Provider</span></td><td><span class="tag tag-s">✕ Suspended</span></td><td style="color:var(--mu)">Jan 2026</td><td><button class="icon-btn">✏️</button> <button class="icon-btn danger">🚫</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dash-section" id="ads-listings">
+        <div class="dash-title">Listing Management</div>
+        <div class="dash-sub">All posted service listings across categories.</div>
+        <div class="admin-stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="admin-stat-card"><div class="s-label">Accommodation</div><div class="s-val">142</div></div>
+          <div class="admin-stat-card"><div class="s-label">Catering</div><div class="s-val">89</div></div>
+          <div class="admin-stat-card"><div class="s-label">Tutoring</div><div class="s-val">95</div></div>
+        </div>
+        <div class="dash-card" style="padding:0;overflow:hidden">
+          <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--br)"><h3 style="margin:0">All Listings</h3></div>
+          <table class="admin-table">
+            <thead><tr><th>Title</th><th>Category</th><th>Provider</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td>Luxury Apartment – Downtown</td><td><span class="tag tag-a">Accommodation</span></td><td style="color:var(--mu)">R. Sharup</td><td>৳1,500/mo</td><td><span class="tag tag-v">Live</span></td><td><button class="icon-btn">👁️</button> <button class="icon-btn danger">✕</button></td></tr>
+              <tr><td>Home Catering – Daily Meals</td><td><span class="tag tag-c">Catering</span></td><td style="color:var(--mu)">Fatema Khatun</td><td>৳50/meal</td><td><span class="tag tag-v">Live</span></td><td><button class="icon-btn">👁️</button> <button class="icon-btn danger">✕</button></td></tr>
+              <tr><td>Math Tutoring – Uni Level</td><td><span class="tag tag-t">Tutoring</span></td><td style="color:var(--mu)">Arif Hossain</td><td>৳45/hr</td><td><span class="tag tag-p">Pending</span></td><td><button class="icon-btn">✅</button> <button class="icon-btn danger">✕</button></td></tr>
+              <tr><td>"Free Room – No ID needed"</td><td><span class="tag tag-a">Accommodation</span></td><td style="color:var(--mu)">Unknown</td><td>—</td><td><span class="tag tag-s">Flagged</span></td><td><button class="icon-btn danger">✕</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dash-section" id="ads-verif">
+        <div class="dash-title">Verification Queue</div>
+        <div class="dash-sub">Users awaiting identity verification review.</div>
+        <div class="dash-card"><h3>Pending Reviews (18)</h3>
+          <div class="bk-item"><div class="bk-left"><div class="u-avatar" style="margin-right:.75rem">SA</div><div class="bk-info"><h4>Shahida Akter — Student ID Upload</h4><p>Rajshahi University · Submitted Jun 30</p></div></div><div class="bk-right" style="display:flex;gap:.5rem"><button class="btn-primary" style="font-size:11px;padding:.3rem .8rem;background:#48bb78;color:#1a4731">Approve</button><button class="icon-btn danger">✕</button></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="u-avatar" style="background:#fac775;color:#412402;margin-right:.75rem">RK</div><div class="bk-info"><h4>Rafiq Khan — NID Upload</h4><p>RUET · Submitted Jun 29</p></div></div><div class="bk-right" style="display:flex;gap:.5rem"><button class="btn-primary" style="font-size:11px;padding:.3rem .8rem;background:#48bb78;color:#1a4731">Approve</button><button class="icon-btn danger">✕</button></div></div>
+          <div class="bk-item"><div class="bk-left"><div class="u-avatar" style="background:#90b4f4;color:#042c53;margin-right:.75rem">NJ</div><div class="bk-info"><h4>Nadia Jahan — Student ID Upload</h4><p>Varendra University · Submitted Jun 28</p></div></div><div class="bk-right" style="display:flex;gap:.5rem"><button class="btn-primary" style="font-size:11px;padding:.3rem .8rem;background:#48bb78;color:#1a4731">Approve</button><button class="icon-btn danger">✕</button></div></div>
+        </div>
+      </div>
+      <div class="dash-section" id="ads-reports">
+        <div class="dash-title">Reports &amp; Analytics</div>
+        <div class="dash-sub">Platform performance for June 2026.</div>
+        <div class="admin-stats">
+          <div class="admin-stat-card"><div class="s-label">Monthly Signups</div><div class="s-val s-green">214</div><div class="s-hint">↑ 18% vs May</div></div>
+          <div class="admin-stat-card"><div class="s-label">Ad Revenue</div><div class="s-val">৳12,840</div><div class="s-hint">From listing fees</div></div>
+          <div class="admin-stat-card"><div class="s-label">Fraud Blocked</div><div class="s-val s-red">23</div><div class="s-hint">Listings removed</div></div>
+          <div class="admin-stat-card"><div class="s-label">Avg Rating</div><div class="s-val s-yellow">4.7 ★</div><div class="s-hint">Across all services</div></div>
+        </div>
+        <div class="dash-card"><h3>Service Category Breakdown</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:.75rem">
+            <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:var(--g)">44%</div><div style="font-size:13px;color:var(--mu)">🏠 Accommodation</div></div>
+            <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:#9ae6b4">27%</div><div style="font-size:13px;color:var(--mu)">🍽️ Catering</div></div>
+            <div style="text-align:center"><div style="font-size:2rem;font-weight:800;color:#90b4f4">29%</div><div style="font-size:13px;color:var(--mu)">📚 Tutoring</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Our JS files -->
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
